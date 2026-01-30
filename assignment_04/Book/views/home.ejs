@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recipe Book</title>
+</head>
+<body>
+
+<h1>Recipe Book</h1>
+
+<!-- Add New Recipe Button -->
+<button onclick="showForm()">Add New Recipe</button>
+
+<!-- Hidden Form -->
+<div id="recipeForm" style="display:none; margin-top:20px;">
+    <h2>Add New Recipe</h2>
+    <form action="/add" method="POST">
+        Name: <input type="text" name="name" required><br><br>
+        Ingredients: <input type="text" name="ingredients" required><br><br>
+        Instructions: <input type="text" name="instructions" required><br><br>
+        <button type="submit">Add Recipe</button>
+    </form>
+</div>
+
+<hr>
+
+<h2>All Recipes</h2>
+
+<ul>
+    <% recipes.forEach(recipe => { %>
+        <li>
+            <a href="/recipe/<%= recipe.id %>">
+                <%= recipe.name %>
+            </a>
+
+            <form action="/delete/<%= recipe.id %>" method="POST" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+    <% }) %>
+</ul>
+
+<script>
+function showForm() {
+    document.getElementById("recipeForm").style.display = "block";
+}
+</script>
+
+</body>
+</html>
