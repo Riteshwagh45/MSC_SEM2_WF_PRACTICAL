@@ -1,28 +1,42 @@
 const express = require("express");
+const bodyParser = require("body-parser");
+const path = require("path");
+
 const app = express();
 const PORT = 3000;
 
-app.use(express.urlencoded({ extended: true }));
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static("public"));
 app.set("view engine", "ejs");
 
-// Show login page
+
 app.get("/", (req, res) => {
-  res.render("login", { error: null });
+    res.render("login", { message: "" });
 });
 
-// Handle login
+
 app.post("/login", (req, res) => {
-  const { username, password } = req.body;
+    const { username, password } = req.body;
 
-  if (username.length > 6) {
-    return res.render("login", {
-      error: "Username should not contain more than 6 characters"
+    
+    if (username.length > 6) {
+        return res.render("login", { 
+            message: "Username must not contain more than 6 characters!" 
+        });
+    }
+
+    if (!username || !password) {
+        return res.render("login", { 
+            message: "All fields are required!" 
+        });
+    }
+
+    res.render("login", { 
+        message: "Login Successful" 
     });
-  }
-
-  res.send("Login Successful");
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+    console.log(`Server running on http://localhost:${PORT}`);
 });

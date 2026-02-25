@@ -2,42 +2,44 @@
 <html>
 <head>
     <title>Recipe Book</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
-<h1>Recipe Book</h1>
+<div class="container">
+    <h1>Recipe Book</h1>
 
-<!-- Add New Recipe Button -->
-<button onclick="showForm()">Add New Recipe</button>
+    <button onclick="showForm()">Add New Recipe</button>
 
-<!-- Hidden Form -->
-<div id="recipeForm" style="display:none; margin-top:20px;">
-    <h2>Add New Recipe</h2>
-    <form action="/add" method="POST">
-        Name: <input type="text" name="name" required><br><br>
-        Ingredients: <input type="text" name="ingredients" required><br><br>
-        Instructions: <input type="text" name="instructions" required><br><br>
-        <button type="submit">Add Recipe</button>
-    </form>
+    <div id="recipeForm" class="form-box">
+        <form action="/add" method="POST">
+            <input type="text" name="name" placeholder="Recipe Name" required>
+            <input type="text" name="ingredients" placeholder="Ingredients" required>
+            <textarea name="instructions" placeholder="Instructions" required></textarea>
+            <button type="submit">Add Recipe</button>
+        </form>
+    </div>
+
+    <h2>All Recipes</h2>
+
+    <ul>
+        <% recipes.forEach(recipe => { %>
+            <li>
+                <span><%= recipe.name %></span>
+
+                <div class="actions">
+                    
+                    <a href="/recipe/<%= recipe.id %>" class="view-btn">View</a>
+
+                    
+                    <form action="/delete/<%= recipe.id %>" method="POST">
+                        <button type="submit" class="delete-btn">Delete</button>
+                    </form>
+                </div>
+            </li>
+        <% }) %>
+    </ul>
 </div>
-
-<hr>
-
-<h2>All Recipes</h2>
-
-<ul>
-    <% recipes.forEach(recipe => { %>
-        <li>
-            <a href="/recipe/<%= recipe.id %>">
-                <%= recipe.name %>
-            </a>
-
-            <form action="/delete/<%= recipe.id %>" method="POST" style="display:inline;">
-                <button type="submit">Delete</button>
-            </form>
-        </li>
-    <% }) %>
-</ul>
 
 <script>
 function showForm() {

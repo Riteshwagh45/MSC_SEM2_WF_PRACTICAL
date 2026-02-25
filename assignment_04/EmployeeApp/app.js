@@ -6,12 +6,11 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
-// Show form page
+
 app.get("/", (req, res) => {
   res.render("form");
 });
 
-// Handle POST request
 app.post("/submit", (req, res) => {
   const { name, email, department, salary } = req.body;
 
